@@ -1,0 +1,43 @@
+.categoryFilter {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px 24px 20px 24px;
+    background: #fff;
+
+    & .categoryBtn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 50px;
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        & svg {
+            font-size: 1.1rem;
+        }
+
+        &:hover {
+            border-color: #a855f7;
+            color: #a855f7;
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(147, 51, 234, 0.3);
+
+            &:hover {
+                background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            }
+        }
+    }
+}

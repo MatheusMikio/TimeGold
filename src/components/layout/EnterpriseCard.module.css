@@ -1,0 +1,196 @@
+.card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+    position: relative;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    & .imageWrapper {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        & .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #a855f7;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        & .favoriteBtn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+
+            & svg {
+                color: #9ca3af;
+                font-size: 1.1rem;
+                transition: color 0.2s;
+            }
+
+            &:hover {
+                background: #fff;
+                transform: scale(1.1);
+
+                & svg {
+                    color: #ef4444;
+                }
+            }
+        }
+    }
+
+    & .content {
+        padding: 16px;
+
+        & .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
+
+            & .name {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #1a1333;
+                margin: 0;
+            }
+
+            & .rating {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #1a1333;
+
+                & svg {
+                    color: #fbbf24;
+                    font-size: 1rem;
+                }
+
+                & span {
+                    color: #9ca3af;
+                    font-weight: 400;
+                }
+            }
+        }
+
+        & .category {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        & .info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+
+            & .infoItem {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 0.85rem;
+                color: #6b7280;
+
+                & svg {
+                    font-size: 1rem;
+                    color: #9ca3af;
+                }
+            }
+        }
+
+        & .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            & .price {
+                & .label {
+                    font-size: 0.75rem;
+                    color: #9ca3af;
+                    display: block;
+                }
+
+                & .value {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: #a855f7;
+                }
+            }
+
+            & .actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                & .statusBadge {
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    border: none;
+
+                    &.open {
+                        background: #f0fdf4;
+                        color: #16a34a;
+                    }
+
+                    &.closed {
+                        background: #fef2f2;
+                        color: #dc2626;
+                    }
+                }
+
+                & .scheduleBtn {
+                    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+                    color: #fff;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 8px 20px;
+                    cursor: pointer;
+                    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+
+                    &:hover {
+                        background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+                        transform: translateY(-1px);
+                        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.navBar{
+    display: flex;
+    height: 5vh;
+    width: 100vw;
+    background-color: var(--bg-sidebar);
+    justify-content: space-between;
+    align-items: center;
+    padding: 2em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    & .enterpriseName{
+        display: flex;
+
+        & span{
+            color: var(--secondary);
+        }
+
+        & img{
+            height: 40px;
+            width: 40px;
+            margin-right: 1em;
+        }
+    }
+
+    .links {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    & .navButton {
+        font-weight: 600;
+        font-size: 1.2em;
+        text-decoration: none;
+        color: #6c648b;
+        padding: 0.6em 1.6em;
+        border-radius: 1.2em;
+        background: transparent;
+        transition: background 0.2s, color 0.2s;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    & .linkselected {
+        background: #f3eaff;
+        color: #a13be0;
+        font-weight: 700;
+        border-radius: 2em;
+        padding: 0.6em 1.6em;
+    }
+}
+
+    & .user{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.3em;
+
+        svg{
+            font-size: 1.5em;
+        }
+
+        button{
+            font-size: .95em;
+            font-weight: 800;
+            border: none;
+            background: var(--primary-gradient);
+            border-radius: .9em;
+            padding: .7em 1.2em;
+            color: var(--bg-sidebar);
+
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}

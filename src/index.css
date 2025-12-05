@@ -1,0 +1,32 @@
+:root {
+  --primary: #9D35E4;     
+  --primary-gradient: linear-gradient(90deg, #9a28fd 0%, #b06cdd 100%); /* Menu Dashboard */
+  --secondary: #FFC107;       
+  
+
+  --bg-sidebar: #FFFFFF;        
+  --bg-main: #F8F9FA;          
+  --bg-card-pro: #F3E5F5;       
+
+  --status-success-bg: #DCFCE7; 
+  --status-success-text: #166534;
+
+  --status-error-bg: #FEE2E2;
+  --status-error-text: #991B1B;
+
+  --status-warning-bg: #FEF3C7;
+  --status-warning-text: #92400E;
+
+  --font-sans: "Poppins", sans-serif;
+}
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: var(--bg-main);
+  font-family: var(--font-sans);
+}

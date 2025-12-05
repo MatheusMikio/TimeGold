@@ -1,0 +1,96 @@
+.background {
+    min-height: 80vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: radial-gradient(ellipse at 50% 0%, #e8d4f8 0%, #f9f4ff 40%, #fff8e8 70%, #ffffff 100%);
+    padding-top: 80px;
+
+    & .alert {
+        display: flex;
+        align-items: center;
+        background: #fffbe6;
+        color: #1a1333;
+        font-weight: 500;
+        border-radius: 2em;
+        padding: 0.6em 1.8em;
+        margin-bottom: 2em;
+        font-size: 1rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f5e6b8;
+
+        & .icon {
+            margin-right: 0.6em;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffbb00;
+            display: inline-block;
+        }
+    }
+
+    & .title {
+        font-size: 3.5rem;
+        font-weight: 900;
+        text-align: center;
+        color: #1a1333;
+        margin-bottom: 16px;
+
+        & .gold {
+            color: #ffb800;
+        }
+    }
+
+    & .subtitle {
+        font-size: 1.1rem;
+        color: #6c648b;
+        text-align: center;
+        margin-bottom: 40px;
+        max-width: 600px;
+        line-height: 1.6;
+    }
+
+    & .searchBar {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 32px;
+
+        & .inputWrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            & .inputIcon {
+                position: absolute;
+                left: 16px;
+                color: #a0a0a0;
+                font-size: 1.2rem;
+            }
+
+            & input {
+                background: #fff;
+                border-radius: 12px;
+                border: 1px solid #e8e8e8;
+                padding: 16px 20px 16px 48px;
+                font-size: 1rem;
+                min-width: 260px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+                outline: none;
+                transition: border-color 0.2s, box-shadow 0.2s;
+
+                &::placeholder {
+                    color: #b0b0b0;
+                }
+
+                &:focus {
+                    border-color: #a13be0;
+                    box-shadow: 0 2px 12px rgba(161, 59, 224, 0.1);
+                }
+            }
+        }
+    }
+}
