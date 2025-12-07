@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./EnterpriseCard.module.css";
 import { LuHeart, LuStar, LuMapPin, LuClock } from "react-icons/lu";
 
 type EnterpriseCardProps = {
+    id: number;
     name: string;
     category: string;
     image: string;
@@ -15,6 +17,7 @@ type EnterpriseCardProps = {
 };
 
 export default function EnterpriseCard({
+    id,
     name,
     category,
     image,
@@ -26,12 +29,27 @@ export default function EnterpriseCard({
     isOpen,
     isFeatured = false
 }: EnterpriseCardProps) {
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/${id}`);
+    };
+
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+    };
+
+    const handleScheduleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        navigate(`/${id}`);
+    };
+
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={handleCardClick}>
             <div className={styles.imageWrapper}>
                 <img src={image} alt={name} />
                 {isFeatured && <span className={styles.badge}>Destaque</span>}
-                <button className={styles.favoriteBtn}>
+                <button className={styles.favoriteBtn} onClick={handleFavoriteClick}>
                     <LuHeart />
                 </button>
             </div>
@@ -64,7 +82,7 @@ export default function EnterpriseCard({
                         <span className={`${styles.statusBadge} ${isOpen ? styles.open : styles.closed}`}>
                             {isOpen ? "Aberto" : "Fechado"}
                         </span>
-                        <button className={styles.scheduleBtn}>Agendar</button>
+                        <button className={styles.scheduleBtn} onClick={handleScheduleClick}>Agendar</button>
                     </div>
                 </div>
             </div>

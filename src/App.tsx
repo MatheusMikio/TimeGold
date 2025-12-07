@@ -16,7 +16,6 @@ function App() {
             <Route path="/" element={<HomeView/>}/>
             <Route path="/admin" element={<AdminView/>}/>
             <Route  path="/:entepriseId" element={<EntepriseView/>}/>
-            {/* <Route path="/" element={</>}/> */}
           </Routes>
         </Container>
       </Router>

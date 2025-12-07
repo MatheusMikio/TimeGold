@@ -1,0 +1,387 @@
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: -70px;
+    position: relative;
+
+    & .bannerSection {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        padding-top: 70px;
+
+        & .bannerImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        & .backButton {
+            position: absolute;
+            top: 90px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease;
+            z-index: 10;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+
+            & svg {
+                font-size: 20px;
+                color: #333;
+            }
+        }
+
+        & .bannerActions {
+            position: absolute;
+            top: 90px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+
+            & .actionButton {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: white;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                transition: transform 0.2s ease;
+
+                &:hover {
+                    transform: scale(1.05);
+                }
+
+                & svg {
+                    font-size: 18px;
+                    color: #333;
+                }
+            }
+        }
+    }
+
+    & .infoSection {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 24px;
+        gap: 20px;
+        background-color: white;
+        margin-top: -60px;
+        margin-left: 20px;
+        margin-right: 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 5;
+
+        & .profileInfo {
+            display: flex;
+            gap: 16px;
+            flex: 1;
+            align-items: flex-start;
+
+            & .profileImage {
+                width: 90px;
+                height: 90px;
+                border-radius: 10px;
+                object-fit: cover;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                flex-shrink: 0;
+            }
+
+            & .mainInfo {
+                flex: 1;
+                padding-top: 4px;
+
+                & .badges {
+                    display: flex;
+                    gap: 8px;
+                    margin-bottom: 8px;
+
+                    & .featuredBadge {
+                        background-color: var(--secondary);
+                        color: #333;
+                        padding: 4px 12px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+
+                    & .statusBadge {
+                        padding: 4px 12px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        font-weight: 600;
+
+                        &.open {
+                            background-color: var(--status-success-bg);
+                            color: var(--status-success-text);
+                        }
+
+                        &.closed {
+                            background-color: var(--status-error-bg);
+                            color: var(--status-error-text);
+                        }
+                    }
+                }
+
+                & .enterpriseName {
+                    font-size: 26px;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                    margin-bottom: 2px;
+                }
+
+                & .category {
+                    font-size: 14px;
+                    color: #666;
+                    margin-bottom: 10px;
+                }
+
+                & .description {
+                    font-size: 14px;
+                    color: #666;
+                    line-height: 1.5;
+                    margin-bottom: 14px;
+                    max-width: 550px;
+                }
+
+                & .contactInfo {
+                    display: flex;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                    align-items: center;
+
+                    & .contactItem {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        font-size: 13px;
+                        color: #666;
+
+                        & svg {
+                            color: var(--primary);
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+
+        & .ratingBox {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 16px;
+            border: 1px solid #f5e6c8;
+            border-radius: 10px;
+            background-color: #ffeec0;
+            align-self: flex-start;
+
+            & .starIcon {
+                color: var(--secondary);
+                font-size: 18px;
+                fill: var(--secondary);
+            }
+
+            & .ratingValue {
+                font-size: 18px;
+                font-weight: 700;
+                color: #1a1a1a;
+            }
+
+            & .reviewCount {
+                font-size: 13px;
+                color: #888;
+            }
+        }
+    }
+
+    & .servicesSection {
+        padding: 30px 24px 40px;
+        margin: 0 20px;
+        margin-top: 20px;
+
+        & .servicesHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+
+            & .servicesTitle {
+                & h2 {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                    margin-bottom: 4px;
+                }
+
+                & p {
+                    font-size: 14px;
+                    color: #666;
+
+                    & .priceHighlight {
+                        color: var(--primary);
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            & .servicesCount {
+                font-size: 14px;
+                color: var(--primary);
+                font-weight: 500;
+            }
+        }
+
+        & .servicesList {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            & .serviceCard {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                background-color: white;
+                border: 1px solid #eee;
+                border-radius: 12px;
+                transition: box-shadow 0.2s ease;
+
+                &:hover {
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                }
+
+                & .serviceInfo {
+                    flex: 1;
+
+                    & .serviceName {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: var(--primary);
+                        margin-bottom: 4px;
+                    }
+
+                    & .serviceDescription {
+                        font-size: 14px;
+                        color: #666;
+                        margin-bottom: 8px;
+                    }
+
+                    & .serviceDuration {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        font-size: 13px;
+                        color: #888;
+
+                        & svg {
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                & .serviceAction {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    gap: 12px;
+
+                    & .servicePrice {
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: #1a1a1a;
+                    }
+
+                    & .scheduleButton {
+                        padding: 10px 24px;
+                        background-color: var(--primary);
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: background-color 0.2s ease, transform 0.2s ease;
+
+                        &:hover {
+                            background-color: #8429c9;
+                            transform: translateY(-1px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        & .infoSection {
+            flex-direction: column;
+
+            & .profileInfo {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+
+                & .mainInfo {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    & .badges {
+                        justify-content: center;
+                    }
+
+                    & .contactInfo {
+                        justify-content: center;
+                    }
+
+                    & .description {
+                        text-align: center;
+                    }
+                }
+            }
+
+            & .ratingBox {
+                align-self: center;
+            }
+        }
+
+        & .servicesSection {
+            & .servicesList {
+                & .serviceCard {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 16px;
+
+                    & .serviceAction {
+                        flex-direction: row;
+                        justify-content: space-between;
+                        width: 100%;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
+}

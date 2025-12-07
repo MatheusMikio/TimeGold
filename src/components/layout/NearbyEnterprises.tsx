@@ -96,6 +96,7 @@ export default function NearbyEnterprises() {
                 {enterprises.map((enterprise) => (
                     <EnterpriseCard
                         key={enterprise.id}
+                        id={enterprise.id}
                         name={enterprise.name}
                         category={enterprise.category}
                         image={enterprise.image}
