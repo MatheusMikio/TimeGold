@@ -1,6 +1,6 @@
-import ButtonComponent from "../components/layout/ButtonComponent";
-import CategoryFilter from "../components/layout/CategoryFilter";
-import NearbyEnterprises from "../components/layout/NearbyEnterprises";
+import ButtonComponent from "../components/layout/Button/ButtonComponent";
+import CategoryFilter from "../components/layout/CategoryFilter/CategoryFilter";
+import NearbyEnterprises from "../components/layout/NearbyEnterprises/NearbyEnterprises";
 import styles from "./Home.module.css"
 import { LuSearch, LuMapPin } from "react-icons/lu";
 

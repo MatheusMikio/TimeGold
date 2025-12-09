@@ -1,5 +1,5 @@
 import styles from "./NearbyEnterprises.module.css";
-import EnterpriseCard from "./EnterpriseCard";
+import EnterpriseCard from "../EnterpriseCard/EnterpriseCard";
 
 const enterprises = [
     {

@@ -1,0 +1,74 @@
+.imageUpload {
+    & .fileInput {
+        display: none;
+    }
+
+    & .fileLabel {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background-color: #f3e8ff;
+        color: #8b5cf6;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: 1px dashed #8b5cf6;
+
+        &:hover {
+            background-color: #ede9fe;
+        }
+    }
+
+    & .previewWrapper {
+        position: relative;
+        display: inline-block;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e9ecef;
+
+        & .previewImage {
+            display: block;
+            object-fit: cover;
+        }
+
+        & .removeBtn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e9ecef;
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+
+            &:hover {
+                background-color: #fee2e2;
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    & .logoPreview {
+        & .previewImage {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    & .bannerPreview {
+        & .previewImage {
+            width: 100%;
+            max-width: 400px;
+            height: 150px;
+        }
+    }
+}

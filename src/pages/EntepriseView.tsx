@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Enteprise.module.css";
 import { LuArrowLeft, LuHeart, LuShare2, LuStar, LuMapPin, LuPhone, LuClock } from "react-icons/lu";
 
@@ -71,7 +71,7 @@ const mockEnterprise = {
 };
 
 export default function EntepriseView() {
-    const { entepriseId } = useParams();
+    // const { entepriseId } = useParams();
     const navigate = useNavigate();
 
     const enterprise = mockEnterprise;
