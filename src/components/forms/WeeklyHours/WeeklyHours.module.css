@@ -1,0 +1,165 @@
+.weeklyHours {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px;
+}
+
+.dayRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    gap: 16px;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background: #f1f3f5;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+.dayInfo {
+    min-width: 150px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    & input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: #ffc107;
+    }
+}
+
+.dayLabel {
+    font-weight: 500;
+    font-size: 15px;
+    color: #333;
+}
+
+.timeInputs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-end;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+}
+
+.timeField {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    & label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        flex: 1;
+        min-width: 100px;
+    }
+}
+
+.timeInput {
+    padding: 8px 12px;
+    border: 2px solid #e1e4e8;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    background: white;
+    min-width: 110px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: #ffc107;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #ffc107;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+    }
+}
+
+.separator {
+    color: #666;
+    font-weight: 500;
+    margin: 0 4px;
+    padding-top: 20px;
+
+    @media (max-width: 768px) {
+        padding-top: 20px;
+    }
+}
+
+.closedLabel {
+    flex: 1;
+    text-align: right;
+    padding-right: 12px;
+
+    & span {
+        color: #999;
+        font-style: italic;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+        text-align: left;
+        padding-right: 0;
+    }
+}
+
+.copyButton {
+    padding: 8px 12px;
+    background: white;
+    border: 2px solid #e1e4e8;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+    margin-top: 20px;
+
+    &:hover {
+        background: #ffc107;
+        border-color: #ffc107;
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+        margin-top: 8px;
+    }
+}

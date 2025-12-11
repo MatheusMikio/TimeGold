@@ -1,4 +1,4 @@
-import logo from "../../../../public/logo.png"
+import logo from "../../../assets/logo.png"
 import { LuUser } from "react-icons/lu";
 import styles from "./NavbarComponent.module.css"
 import LinkButton from "../LinkButton/LinkButton";

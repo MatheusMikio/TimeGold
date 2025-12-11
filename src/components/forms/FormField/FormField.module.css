@@ -1,0 +1,85 @@
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.labelWithIcon {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+        color: #666;
+        font-size: 16px;
+    }
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.input {
+    padding: 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+    background-color: white;
+
+    &:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    &.error {
+        border-color: #e74c3c;
+    }
+}
+
+.textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.select {
+    padding: 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    &.error {
+        border-color: #e74c3c;
+    }
+}
+
+.hint {
+    font-size: 12px;
+    color: #666;
+}
+
+.errorMessage {
+    font-size: 12px;
+    color: #e74c3c;
+}

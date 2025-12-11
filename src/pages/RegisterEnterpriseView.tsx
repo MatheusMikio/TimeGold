@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './RegisterEnterprise.module.css';
-import Input from '../components/layout/Input/Input';
-import ButtonComponent from '../components/layout/Button/ButtonComponent';
+import FormSection from '../components/forms/FormSection/FormSection';
+import FormField from '../components/forms/FormField/FormField';
+import ServiceForm from '../components/forms/ServiceForm/ServiceForm';
+import WeeklyHours from '../components/forms/WeeklyHours/WeeklyHours';
 import ImageUpload from '../components/layout/ImageUpload/ImageUpload';
+import ButtonComponent from '../components/layout/Button/ButtonComponent';
 import { 
     FiArrowLeft, 
     FiFileText, 
@@ -11,35 +14,17 @@ import {
     FiPhone, 
     FiMail, 
     FiClock,
-    FiPlus,
-    FiX
+    FiCreditCard,
+    FiLock,
+    FiUser,
+    FiCheckSquare
 } from 'react-icons/fi';
-
-interface Service {
-    id: number;
-    name: string;
-    duration: string;
-    price: string;
-}
 
 export default function RegisterEnterpriseView() {
     const navigate = useNavigate();
-    
-    const [formData, setFormData] = useState({
-        name: '',
-        category: '',
-        description: '',
-        logo: null as File | null,
-        banner: null as File | null,
-        address: '',
-        phone: '',
-        email: '',
-        workingHours: ''
-    });
-
-    const [services, setServices] = useState<Service[]>([
-        { id: 1, name: '', duration: '', price: '' }
-    ]);
+    const [serviceCount, setServiceCount] = useState(1);
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [acceptPayment, setAcceptPayment] = useState(false);
 
     const categories = [
         'Beleza',
@@ -54,45 +39,122 @@ export default function RegisterEnterpriseView() {
         'Outros'
     ];
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    const handleFileChange = (field: 'logo' | 'banner', file: File | null) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: file
-        }));
-    };
-
-    const handleServiceChange = (id: number, field: string, value: string) => {
-        setServices(prev => prev.map(service => 
-            service.id === id ? { ...service, [field]: value } : service
-        ));
-    };
+    const pixKeyTypes = [
+        { value: 'cpf', label: 'CPF' },
+        { value: 'cnpj', label: 'CNPJ' },
+        { value: 'email', label: 'Email' },
+        { value: 'phone', label: 'Telefone' },
+        { value: 'random', label: 'Chave Aleatória' }
+    ];
 
     const addService = () => {
-        const newId = Math.max(...services.map(s => s.id), 0) + 1;
-        setServices(prev => [...prev, { id: newId, name: '', duration: '', price: '' }]);
+        setServiceCount(prev => prev + 1);
     };
 
-    const removeService = (id: number) => {
-        if (services.length > 1) {
-            setServices(prev => prev.filter(service => service.id !== id));
+    const removeService = (_index: number) => {
+        if (serviceCount > 1) {
+            setServiceCount(prev => prev - 1);
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
+        const formData = new FormData(e.currentTarget);
+        
         const enterpriseData = {
-            ...formData,
-            services: services.filter(s => s.name.trim() !== '')
+            name: formData.get('name') as string,
+            cnpj: formData.get('cnpj') as string,
+            category: formData.get('category') as string,
+            description: formData.get('description') as string,
+
+            // Responsável Legal
+            ownerName: formData.get('ownerName') as string,
+            ownerCpf: formData.get('ownerCpf') as string,
+
+            // Endereço
+            street: formData.get('street') as string,
+            number: formData.get('number') as string,
+            complement: formData.get('complement') as string || '',
+            zipCode: formData.get('zipCode') as string,
+            city: formData.get('city') as string,
+            state: formData.get('state') as string,
+            country: formData.get('country') as string,
+            phone: formData.get('phone') as string,
+            email: formData.get('email') as string,
+            workingHours: {
+                monday: {
+                    isOpen: formData.get('workingHours[monday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[monday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[monday].closeTime') as string || '',
+                },
+                tuesday: {
+                    isOpen: formData.get('workingHours[tuesday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[tuesday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[tuesday].closeTime') as string || '',
+                },
+                wednesday: {
+                    isOpen: formData.get('workingHours[wednesday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[wednesday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[wednesday].closeTime') as string || '',
+                },
+                thursday: {
+                    isOpen: formData.get('workingHours[thursday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[thursday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[thursday].closeTime') as string || '',
+                },
+                friday: {
+                    isOpen: formData.get('workingHours[friday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[friday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[friday].closeTime') as string || '',
+                },
+                saturday: {
+                    isOpen: formData.get('workingHours[saturday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[saturday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[saturday].closeTime') as string || '',
+                },
+                sunday: {
+                    isOpen: formData.get('workingHours[sunday].isOpen') === 'true',
+                    openTime: formData.get('workingHours[sunday].openTime') as string || '',
+                    closeTime: formData.get('workingHours[sunday].closeTime') as string || '',
+                }
+            },
+            logo: formData.get('logo') as File | null,
+            banner: formData.get('banner') as File | null,
+
+            // Dados de pagamento - Cartão (obrigatório)
+            cardholderName: formData.get('cardholderName') as string,
+            cardNumber: formData.get('cardNumber') as string,
+            cardExpiry: formData.get('cardExpiry') as string,
+            cardCvv: formData.get('cardCvv') as string,
+
+            // Dados de pagamento - PIX (opcional)
+            pixKeyType: formData.get('pixKeyType') as string || '',
+            pixKey: formData.get('pixKey') as string || '',
+
+            // Aceite de termos
+            acceptTerms: acceptTerms,
+            acceptPayment: acceptPayment,
+            services: [] as { 
+                name: string;
+                duration: string;
+                price: string 
+            }[]
         };
+
+        for (let i = 0; i < serviceCount; i++) {
+            const serviceName = formData.get(`services[${i}].name`) as string;
+            const serviceDuration = formData.get(`services[${i}].duration`) as string;
+            const servicePrice = formData.get(`services[${i}].price`) as string;
+            
+            if (serviceName?.trim()) {
+                enterpriseData.services.push({
+                    name: serviceName,
+                    duration: serviceDuration || '',
+                    price: servicePrice || ''
+                });
+            }
+        }
         
         console.log('Dados da empresa:', enterpriseData);
         navigate('/');
@@ -116,225 +178,290 @@ export default function RegisterEnterpriseView() {
 
             <div className={styles.formContainer}>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    <section className={styles.sectionCard}>
-                        <div className={styles.sectionHeader}>
-                            <div className={styles.sectionIcon}>
-                                <FiFileText />
-                            </div>
-                            <h2 className={styles.sectionTitle}>Informações Básicas</h2>
+                    <FormSection
+                        title="Informações Básicas"
+                        description="Dados principais da sua empresa"
+                        icon={<FiFileText />}
+                    >
+                        <FormField
+                            label="Nome da Empresa"
+                            name="name"
+                            placeholder="Ex: Studio Bella Hair"
+                            required
+                        />
+
+                        <FormField
+                            label="CNPJ"
+                            name="cnpj"
+                            placeholder="123.456.789-10"
+                            required
+                        />
+
+                        <FormField
+                            label="Categoria"
+                            name="category"
+                            variant="select"
+                            options={categories}
+                            placeholder="Selecione uma categoria"
+                            required
+                        />
+
+                        <FormField
+                            label="Descrição"
+                            name="description"
+                            variant="textarea"
+                            placeholder="Descreva sua empresa e os serviços oferecidos..."
+                            maxLength={500}
+                            hint="Máximo de 500 caracteres"
+                        />
+
+                        <div className={styles.field}>
+                            <label className={styles.label}>Logo da Empresa</label>
+                            <ImageUpload
+                                id="logo-upload"
+                                name="logo"
+                                label="Escolher Logo"
+                                variant="logo"
+                            />
                         </div>
-                        <p className={styles.sectionDescription}>Dados principais da sua empresa</p>
-                        
-                        <div className={styles.fieldGroup}>
-                            <div className={styles.field}>
-                                <label className={styles.label}>
-                                    Nome da Empresa <span className={styles.required}>*</span>
-                                </label>
-                                <Input 
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    customClass={styles.input}
-                                    placeholder="Ex: Studio Bella Hair"
+
+                        <div className={styles.field}>
+                            <label className={styles.label}>Banner da Empresa</label>
+                            <ImageUpload
+                                id="banner-upload"
+                                name="banner"
+                                label="Escolher Banner"
+                                variant="banner"
+                            />
+                        </div>
+                    </FormSection>
+
+                    <FormSection
+                        title="Responsável Legal"
+                        description="Dados do proprietário ou responsável legal da empresa"
+                        icon={<FiUser />}
+                    >
+                        <FormField
+                            label="Nome Completo do Responsável"
+                            name="ownerName"
+                            placeholder="Nome completo do proprietário"
+                            icon={<FiUser />}
+                            required
+                        />
+
+                        <FormField
+                            label="CPF do Responsável"
+                            name="ownerCpf"
+                            placeholder="000.000.000-00"
+                            required
+                        />
+                    </FormSection>
+
+                    <FormSection
+                        title="Contato e Localização"
+                        description="Como os clientes podem te encontrar"
+                        icon={<FiMapPin />}
+                    >
+                        <FormField
+                            label="CEP"
+                            name="zipCode"
+                            placeholder="00000-000"
+                            required
+                        />
+
+                        <div className={styles.fieldRow}>
+                            <FormField
+                                label="Rua"
+                                name="street"
+                                placeholder="Nome da rua"
+                                required
+                            />
+
+                            <FormField
+                                label="Número"
+                                name="number"
+                                placeholder="123"
+                                required
+                            />
+                        </div>
+
+                        <FormField
+                            label="Complemento"
+                            name="complement"
+                            placeholder="Apto, Sala, Bloco (opcional)"
+                        />
+
+                        <div className={styles.fieldRow}>
+                            <FormField
+                                label="Cidade"
+                                name="city"
+                                placeholder="Nome da cidade"
+                                required
+                            />
+
+                            <FormField
+                                label="Estado"
+                                name="state"
+                                placeholder="UF"
+                                required
+                            />
+                        </div>
+
+                        <FormField
+                            label="País"
+                            name="country"
+                            placeholder="Brasil"
+                            required
+                        />
+
+                        <FormField
+                            label="Telefone"
+                            name="phone"
+                            type="tel"
+                            placeholder="(00) 00000-0000"
+                            icon={<FiPhone />}
+                            required
+                        />
+
+                        <FormField
+                            label="Email"
+                            name="email"
+                            type="email"
+                            placeholder="contato@empresa.com"
+                            icon={<FiMail />}
+                            required
+                        />
+
+                        <div className={styles.field}>
+                            <label className={styles.label}>
+                                <FiClock style={{ marginRight: '8px' }} />
+                                Horário de Funcionamento
+                            </label>
+                            <WeeklyHours />
+                        </div>
+                    </FormSection>
+
+                    <FormSection
+                        title="Serviços Oferecidos"
+                        description="Adicione os serviços que sua empresa oferece"
+                        icon={<FiFileText />}
+                    >
+                        <ServiceForm
+                            serviceCount={serviceCount}
+                            onAddService={addService}
+                            onRemoveService={removeService}
+                        />
+                    </FormSection>
+
+                    <FormSection
+                        title="Pagamento da Mensalidade - Cartão de Crédito"
+                        description="Cadastre um cartão de crédito para cobrança automática da assinatura mensal"
+                        icon={<FiCreditCard />}
+                    >
+                        <div className={styles.requiredBadge}>
+                            <span>Obrigatório - Apenas Cartão de Crédito</span>
+                        </div>
+
+                        <div className={styles.paymentNotice}>
+                            <FiLock />
+                            <span>Seus dados são criptografados e processados com segurança. A cobrança é automática todo mês.</span>
+                        </div>
+
+                        <FormField
+                            label="Nome no Cartão de Crédito"
+                            name="cardholderName"
+                            placeholder="Nome como está no cartão"
+                            required
+                        />
+
+                        <FormField
+                            label="Número do Cartão"
+                            name="cardNumber"
+                            placeholder="0000 0000 0000 0000"
+                            icon={<FiCreditCard />}
+                            required
+                        />
+
+                        <div className={styles.cardRow}>
+                            <FormField
+                                label="Validade"
+                                name="cardExpiry"
+                                placeholder="MM/AA"
+                                required
+                            />
+
+                            <FormField
+                                label="CVV"
+                                name="cardCvv"
+                                type="password"
+                                placeholder="123"
+                                hint="Código de 3 dígitos no verso"
+                                required
+                            />
+                        </div>
+                    </FormSection>
+
+                    <FormSection
+                        title="Recebimento via PIX"
+                        description="Informe sua chave PIX para receber pagamentos dos clientes"
+                        icon={<FiCreditCard />}
+                    >
+                        <div className={styles.optionalBadge}>
+                            <span>Opcional</span>
+                        </div>
+
+                        <FormField
+                            label="Tipo de Chave PIX"
+                            name="pixKeyType"
+                            variant="select"
+                            options={pixKeyTypes.map(t => t.label)}
+                            placeholder="Selecione o tipo de chave"
+                        />
+
+                        <FormField
+                            label="Chave PIX"
+                            name="pixKey"
+                            placeholder="Digite sua chave PIX"
+                            hint="Esta chave será usada para receber os pagamentos dos agendamentos"
+                        />
+                    </FormSection>
+
+                    <FormSection
+                        title="Termos e Condições"
+                        description="Leia e aceite os termos para continuar"
+                        icon={<FiCheckSquare />}
+                    >
+                        <div className={styles.termsSection}>
+                            <label className={styles.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    name="acceptTerms"
+                                    checked={acceptTerms}
+                                    onChange={(e) => setAcceptTerms(e.target.checked)}
                                     required
                                 />
-                            </div>
+                                <span>
+                                    Li e aceito os{' '}
+                                    <a href="/terms" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+                                    {' '}e a{' '}
+                                    <a href="/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
+                                </span>
+                            </label>
 
-                            <div className={styles.field}>
-                                <label className={styles.label}>
-                                    Categoria <span className={styles.required}>*</span>
-                                </label>
-                                <select 
-                                    name="category"
-                                    value={formData.category}
-                                    onChange={handleInputChange}
-                                    className={styles.select}
-                                    required
-                                >
-                                    <option value="">Selecione uma categoria</option>
-                                    {categories.map(cat => (
-                                        <option key={cat} value={cat}>{cat}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.label}>Descrição</label>
-                                <textarea 
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    className={`${styles.input} ${styles.textarea}`}
-                                    placeholder="Descreva sua empresa e os serviços oferecidos..."
-                                    maxLength={500}
-                                />
-                                <span className={styles.hint}>Máximo de 500 caracteres</span>
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.label}>Logo da Empresa</label>
-                                <ImageUpload
-                                    id="logo-upload"
-                                    label="Escolher Logo"
-                                    variant="logo"
-                                    onFileChange={(file) => handleFileChange('logo', file)}
-                                />
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.label}>Banner da Empresa</label>
-                                <ImageUpload
-                                    id="banner-upload"
-                                    label="Escolher Banner"
-                                    variant="banner"
-                                    onFileChange={(file) => handleFileChange('banner', file)}
-                                />
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className={styles.sectionCard}>
-                        <div className={styles.sectionHeader}>
-                            <div className={styles.sectionIcon}>
-                                <FiMapPin />
-                            </div>
-                            <h2 className={styles.sectionTitle}>Contato e Localização</h2>
-                        </div>
-                        <p className={styles.sectionDescription}>Como os clientes podem te encontrar</p>
-                        
-                        <div className={styles.fieldGroup}>
-                            <div className={styles.field}>
-                                <label className={styles.label}>
-                                    Endereço Completo <span className={styles.required}>*</span>
-                                </label>
-                                <Input 
-                                    type="text"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleInputChange}
-                                    customClass={styles.input}
-                                    placeholder="Rua, número, bairro - Cidade/UF"
+                            <label className={styles.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    name="acceptPayment"
+                                    checked={acceptPayment}
+                                    onChange={(e) => setAcceptPayment(e.target.checked)}
                                     required
                                 />
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.labelWithIcon}>
-                                    <FiPhone />
-                                    Telefone <span className={styles.required}>*</span>
-                                </label>
-                                <Input 
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleInputChange}
-                                    customClass={styles.input}
-                                    placeholder="(00) 00000-0000"
-                                    required
-                                />
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.labelWithIcon}>
-                                    <FiMail />
-                                    Email <span className={styles.required}>*</span>
-                                </label>
-                                <Input 
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    customClass={styles.input}
-                                    placeholder="contato@empresa.com"
-                                    required
-                                />
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.labelWithIcon}>
-                                    <FiClock />
-                                    Horário de Funcionamento
-                                </label>
-                                <Input 
-                                    type="text"
-                                    name="workingHours"
-                                    value={formData.workingHours}
-                                    onChange={handleInputChange}
-                                    customClass={styles.input}
-                                    placeholder="Seg-Sex: 09:00-18:00, Sáb: 09:00-13:00"
-                                />
-                            </div>
+                                <span>
+                                    Autorizo a cobrança mensal automática no cartão de crédito cadastrado.
+                                </span>
+                            </label>
                         </div>
-                    </section>
-
-                    <section className={styles.sectionCard}>
-                        <div className={styles.sectionHeader}>
-                            <div className={styles.sectionIcon}>
-                                <FiFileText />
-                            </div>
-                            <h2 className={styles.sectionTitle}>Serviços Oferecidos</h2>
-                        </div>
-                        <p className={styles.sectionDescription}>Adicione os serviços que sua empresa oferece</p>
-                        
-                        <div className={styles.servicesList}>
-                            {services.map((service) => (
-                                <div key={service.id} className={styles.serviceItem}>
-                                    {services.length > 1 && (
-                                        <button 
-                                            type="button"
-                                            className={styles.removeServiceBtn}
-                                            onClick={() => removeService(service.id)}
-                                        >
-                                            <FiX />
-                                        </button>
-                                    )}
-                                    <div className={styles.serviceFields}>
-                                        <div className={styles.field}>
-                                            <label className={styles.label}>Nome do Serviço</label>
-                                            <Input 
-                                                type="text"
-                                                value={service.name}
-                                                onChange={(e) => handleServiceChange(service.id, 'name', e.target.value)}
-                                                customClass={styles.input}
-                                                placeholder="Ex: Corte de Cabelo"
-                                            />
-                                        </div>
-                                        <div className={styles.serviceRow}>
-                                            <div className={styles.field}>
-                                                <label className={styles.label}>Duração</label>
-                                                <Input 
-                                                    type="text"
-                                                    value={service.duration}
-                                                    onChange={(e) => handleServiceChange(service.id, 'duration', e.target.value)}
-                                                    customClass={styles.input}
-                                                    placeholder="Ex: 30min"
-                                                />
-                                            </div>
-                                            <div className={styles.field}>
-                                                <label className={styles.label}>Preço (R$)</label>
-                                                <Input 
-                                                    type="text"
-                                                    value={service.price}
-                                                    onChange={(e) => handleServiceChange(service.id, 'price', e.target.value)}
-                                                    customClass={styles.input}
-                                                    placeholder="50.00"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-
-                            <ButtonComponent 
-                                type="button" 
-                                customClass={styles.addServiceBtn}
-                                onClick={addService}
-                            >
-                                <FiPlus /> Adicionar Serviço
-                            </ButtonComponent>
-                        </div>
-                    </section>
+                    </FormSection>
 
                     <div className={styles.formActions}>
                         <ButtonComponent 

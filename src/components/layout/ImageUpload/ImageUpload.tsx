@@ -1,21 +1,21 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { FiUpload, FiX } from 'react-icons/fi'
 import styles from './ImageUpload.module.css'
 
 type ImageUploadProps = {
     id: string
+    name: string
     label: string
     variant?: 'logo' | 'banner'
-    onFileChange: (file: File | null) => void
 }
 
-export default function ImageUpload({ id, label, variant = 'logo', onFileChange }: ImageUploadProps) {
+export default function ImageUpload({ id, name, label, variant = 'logo' }: ImageUploadProps) {
     const [preview, setPreview] = useState<string>('')
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (file) {
-            onFileChange(file)
             const reader = new FileReader()
             reader.onloadend = () => {
                 setPreview(reader.result as string)
@@ -26,7 +26,9 @@ export default function ImageUpload({ id, label, variant = 'logo', onFileChange 
 
     const removeFile = () => {
         setPreview('')
-        onFileChange(null)
+        if (inputRef.current) {
+            inputRef.current.value = ''
+        }
     }
 
     return (
@@ -34,7 +36,9 @@ export default function ImageUpload({ id, label, variant = 'logo', onFileChange 
             {!preview ? (
                 <>
                     <input
+                        ref={inputRef}
                         type="file"
+                        name={name}
                         accept="image/*"
                         onChange={handleFileChange}
                         id={id}
@@ -47,6 +51,15 @@ export default function ImageUpload({ id, label, variant = 'logo', onFileChange 
             ) : (
                 <div className={`${styles.previewWrapper} ${variant === 'banner' ? styles.bannerPreview : styles.logoPreview}`}>
                     <img src={preview} alt="Preview" className={styles.previewImage} />
+                    <input
+                        ref={inputRef}
+                        type="file"
+                        name={name}
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        id={id}
+                        className={styles.fileInput}
+                    />
                     <button
                         type="button"
                         onClick={removeFile}

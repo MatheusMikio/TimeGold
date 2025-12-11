@@ -304,6 +304,121 @@
         }
     }
 
+    & .paymentNotice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        border: 1px solid #a7f3d0;
+        border-radius: 10px;
+        margin-bottom: 16px;
+
+        & svg {
+            color: #059669;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        & span {
+            font-size: 0.875rem;
+            color: #047857;
+            font-weight: 500;
+        }
+    }
+
+    & .cardRow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    & .optionalBadge {
+        margin-bottom: 16px;
+
+        & span {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    & .requiredBadge {
+        margin-bottom: 16px;
+
+        & span {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #fca5a5;
+        }
+    }
+
+    & .termsSection {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    & .checkboxLabel {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #f1f3f4;
+            border-color: #d1d5db;
+        }
+
+        &:has(input:checked) {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: #a7f3d0;
+        }
+
+        & input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #059669;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        & span {
+            font-size: 0.9375rem;
+            color: #374151;
+            line-height: 1.5;
+
+            & a {
+                color: #8b5cf6;
+                text-decoration: none;
+                font-weight: 500;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
     @media (max-width: 768px) {
         & .header {
             padding: 16px 20px;
@@ -314,6 +429,10 @@
         }
 
         & .fieldRow {
+            grid-template-columns: 1fr;
+        }
+
+        & .cardRow {
             grid-template-columns: 1fr;
         }
 

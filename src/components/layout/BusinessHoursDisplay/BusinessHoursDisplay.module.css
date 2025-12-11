@@ -1,0 +1,109 @@
+.container {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 768px) {
+        padding: 16px;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f3f5;
+
+    & h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+        flex: 1;
+
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+}
+
+.icon {
+    color: #ffc107;
+    font-size: 24px;
+}
+
+.status {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &.open {
+        color: #22c55e;
+        background: #dcfce7;
+    }
+
+    &.closed {
+        color: #ef4444;
+        background: #fee2e2;
+    }
+}
+
+.schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background: #f1f3f5;
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px 12px;
+    }
+}
+
+.dayLabel {
+    font-weight: 500;
+    color: #555;
+    font-size: 15px;
+    min-width: 80px;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        min-width: 70px;
+    }
+}
+
+.hours {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+
+    @media (max-width: 768px) {
+        font-size: 13px;
+    }
+}
+
+.closed {
+    color: #999;
+    font-style: italic;
+    font-size: 14px;
+}
