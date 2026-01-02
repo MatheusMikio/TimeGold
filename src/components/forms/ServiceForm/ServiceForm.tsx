@@ -4,21 +4,21 @@ import ButtonComponent from '../../layout/Button/ButtonComponent';
 import styles from './ServiceForm.module.css';
 
 interface ServiceFormProps {
-    serviceCount: number;
+    services: number[];
     onAddService: () => void;
     onRemoveService: (index: number) => void;
 }
 
 export default function ServiceForm({
-    serviceCount,
+    services,
     onAddService,
     onRemoveService
 }: ServiceFormProps) {
     return (
         <div className={styles.servicesList}>
-            {Array.from({ length: serviceCount }, (_, index) => (
-                <div key={index} className={styles.serviceItem}>
-                    {serviceCount > 1 && (
+            {services.map((serviceId, index) => (
+                <div key={serviceId} className={styles.serviceItem}>
+                    {services.length > 1 && (
                         <button 
                             type="button"
                             className={styles.removeServiceBtn}

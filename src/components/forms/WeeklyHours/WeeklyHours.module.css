@@ -1,165 +1,235 @@
 .weeklyHours {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 4px;
+    gap: 10px;
+    padding: 8px;
 }
 
 .dayRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    gap: 16px;
-    transition: background-color 0.2s;
+    padding: 18px 20px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    gap: 20px;
+    transition: all 0.3s ease;
+
+    &.open {
+        border-color: #8b5cf6;
+        background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+    }
+
+    &.closed {
+        background: #f8f9fa;
+        border-color: #e9ecef;
+    }
 
     &:hover {
-        background: #f1f3f5;
-    }
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
     }
 }
 
-.dayInfo {
-    min-width: 150px;
-
-    @media (max-width: 768px) {
-        width: 100%;
-    }
-}
-
-.checkbox {
+.dayHeader {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    min-width: 140px;
+}
+
+.dayToggle {
+    position: relative;
+}
+
+.toggleInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .toggleLabel .toggleSwitch {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+
+        &::before {
+            transform: translateX(22px);
+        }
+    }
+}
+
+.toggleLabel {
+    display: block;
+    width: 50px;
+    height: 28px;
+    background: #e9ecef;
+    border-radius: 14px;
     cursor: pointer;
-    user-select: none;
+    transition: background 0.3s ease;
+    position: relative;
 
-    & input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: #ffc107;
+    &:hover {
+        background: #dee2e6;
     }
 }
 
-.dayLabel {
-    font-weight: 500;
-    font-size: 15px;
-    color: #333;
+.toggleSwitch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: white;
+        top: 3px;
+        left: 3px;
+        transition: transform 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 }
 
-.timeInputs {
+.dayName {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #374151;
+    letter-spacing: 0.3px;
+}
+
+.timeControls {
     display: flex;
     align-items: center;
-    gap: 12px;
     flex: 1;
     justify-content: flex-end;
-
-    @media (max-width: 768px) {
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-    }
 }
 
-.timeField {
+.timeGroup {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 12px;
+}
 
-    & label {
-        font-size: 12px;
-        color: #666;
-        font-weight: 500;
-    }
+.timeInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
-    @media (max-width: 768px) {
-        flex: 1;
-        min-width: 100px;
-    }
+.clockIcon {
+    position: absolute;
+    left: 12px;
+    color: #8b5cf6;
+    font-size: 16px;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .timeInput {
-    padding: 8px 12px;
-    border: 2px solid #e1e4e8;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
+    padding: 10px 12px 10px 36px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #374151;
     background: white;
-    min-width: 110px;
+    min-width: 120px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
     &:hover {
-        border-color: #ffc107;
+        border-color: #8b5cf6;
+        background: #faf5ff;
     }
 
     &:focus {
         outline: none;
-        border-color: #ffc107;
-        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+        border-color: #8b5cf6;
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        background: white;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 1;
+        }
     }
 }
 
-.separator {
-    color: #666;
-    font-weight: 500;
+.timeSeparator {
+    color: #8b5cf6;
+    font-weight: 600;
+    font-size: 1.125rem;
     margin: 0 4px;
-    padding-top: 20px;
-
-    @media (max-width: 768px) {
-        padding-top: 20px;
-    }
 }
 
-.closedLabel {
-    flex: 1;
-    text-align: right;
-    padding-right: 12px;
+.closedBadge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #f1f3f5;
+    border-radius: 20px;
+    border: 2px dashed #dee2e6;
 
     & span {
-        color: #999;
-        font-style: italic;
-        font-size: 14px;
-    }
-
-    @media (max-width: 768px) {
-        width: 100%;
-        text-align: left;
-        padding-right: 0;
+        color: #868e96;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 }
 
-.copyButton {
-    padding: 8px 12px;
-    background: white;
-    border: 2px solid #e1e4e8;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: all 0.2s;
-    margin-top: 20px;
+.closedIcon {
+    color: #868e96;
+    font-size: 16px;
+}
 
-    &:hover {
-        background: #ffc107;
-        border-color: #ffc107;
-        transform: scale(1.05);
+@media (max-width: 768px) {
+    .dayRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px;
     }
 
-    &:active {
-        transform: scale(0.95);
-    }
-
-    @media (max-width: 768px) {
+    .dayHeader {
         width: 100%;
-        margin-top: 8px;
+        justify-content: space-between;
+    }
+
+    .timeControls {
+        width: 100%;
+    }
+
+    .timeGroup {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .timeInputWrapper {
+        flex: 1;
+        min-width: 130px;
+    }
+
+    .timeInput {
+        width: 100%;
+    }
+
+    .closedBadge {
+        align-self: flex-start;
     }
 }

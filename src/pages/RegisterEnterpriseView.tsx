@@ -1,30 +1,46 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './RegisterEnterprise.module.css';
-import FormSection from '../components/forms/FormSection/FormSection';
-import FormField from '../components/forms/FormField/FormField';
-import ServiceForm from '../components/forms/ServiceForm/ServiceForm';
-import WeeklyHours from '../components/forms/WeeklyHours/WeeklyHours';
-import ImageUpload from '../components/layout/ImageUpload/ImageUpload';
-import ButtonComponent from '../components/layout/Button/ButtonComponent';
+import RegisterSidebar from '../components/forms/RegisterSidebar/RegisterSidebar';
+import type { SectionKey, Section } from '../components/forms/RegisterSidebar/RegisterSidebar';
+import BasicInfoSection from '../components/forms/BasicInfoSection/BasicInfoSection';
+import OwnerSection from '../components/forms/OwnerSection/OwnerSection';
+import LocationSection from '../components/forms/LocationSection/LocationSection';
+import ServicesSection from '../components/forms/ServicesSection/ServicesSection';
+import CardPaymentSection from '../components/forms/CardPaymentSection/CardPaymentSection';
+import PixPaymentSection from '../components/forms/PixPaymentSection/PixPaymentSection';
+import TermsSection from '../components/forms/TermsSection/TermsSection';
 import { 
     FiArrowLeft, 
     FiFileText, 
-    FiMapPin, 
-    FiPhone, 
-    FiMail, 
-    FiClock,
+    FiMapPin,
     FiCreditCard,
-    FiLock,
     FiUser,
-    FiCheckSquare
+    FiCheckSquare,
+    FiChevronLeft,
+    FiChevronRight
 } from 'react-icons/fi';
 
 export default function RegisterEnterpriseView() {
     const navigate = useNavigate();
-    const [serviceCount, setServiceCount] = useState(1);
+    const [services, setServices] = useState([0]);
     const [acceptTerms, setAcceptTerms] = useState(false);
     const [acceptPayment, setAcceptPayment] = useState(false);
+    const [currentSection, setCurrentSection] = useState<SectionKey>('basic');
+
+    const sections: Section[] = [
+        { key: 'basic', title: 'Informações Básicas', icon: <FiFileText /> },
+        { key: 'owner', title: 'Responsável Legal', icon: <FiUser /> },
+        { key: 'location', title: 'Contato e Localização', icon: <FiMapPin /> },
+        { key: 'services', title: 'Serviços Oferecidos', icon: <FiFileText /> },
+        { key: 'cardPayment', title: 'Pagamento - Cartão', icon: <FiCreditCard /> },
+        { key: 'pixPayment', title: 'Recebimento via PIX', icon: <FiCreditCard /> },
+        { key: 'terms', title: 'Termos e Condições', icon: <FiCheckSquare /> }
+    ];
+
+    const currentSectionIndex = sections.findIndex(s => s.key === currentSection);
+    const isFirstSection = currentSectionIndex === 0;
+    const isLastSection = currentSectionIndex === sections.length - 1;
 
     const categories = [
         'Beleza',
@@ -48,12 +64,12 @@ export default function RegisterEnterpriseView() {
     ];
 
     const addService = () => {
-        setServiceCount(prev => prev + 1);
+        setServices(prev => [...prev, Math.max(...prev) + 1]);
     };
 
-    const removeService = (_index: number) => {
-        if (serviceCount > 1) {
-            setServiceCount(prev => prev - 1);
+    const removeService = (index: number) => {
+        if (services.length > 1) {
+            setServices(prev => prev.filter((_, i) => i !== index));
         }
     };
 
@@ -142,7 +158,7 @@ export default function RegisterEnterpriseView() {
             }[]
         };
 
-        for (let i = 0; i < serviceCount; i++) {
+        services.forEach((_, i) => {
             const serviceName = formData.get(`services[${i}].name`) as string;
             const serviceDuration = formData.get(`services[${i}].duration`) as string;
             const servicePrice = formData.get(`services[${i}].price`) as string;
@@ -154,7 +170,7 @@ export default function RegisterEnterpriseView() {
                     price: servicePrice || ''
                 });
             }
-        }
+        });
         
         console.log('Dados da empresa:', enterpriseData);
         navigate('/');
@@ -162,6 +178,52 @@ export default function RegisterEnterpriseView() {
 
     const handleCancel = () => {
         navigate('/');
+    };
+
+    const goToNextSection = () => {
+        if (!isLastSection) {
+            setCurrentSection(sections[currentSectionIndex + 1].key);
+        }
+    };
+
+    const goToPreviousSection = () => {
+        if (!isFirstSection) {
+            setCurrentSection(sections[currentSectionIndex - 1].key);
+        }
+    };
+
+    const renderSection = () => {
+        switch (currentSection) {
+            case 'basic':
+                return <BasicInfoSection categories={categories} />;
+            case 'owner':
+                return <OwnerSection />;
+            case 'location':
+                return <LocationSection />;
+            case 'services':
+                return (
+                    <ServicesSection
+                        services={services}
+                        onAddService={addService}
+                        onRemoveService={removeService}
+                    />
+                );
+            case 'cardPayment':
+                return <CardPaymentSection />;
+            case 'pixPayment':
+                return <PixPaymentSection pixKeyTypes={pixKeyTypes} />;
+            case 'terms':
+                return (
+                    <TermsSection
+                        acceptTerms={acceptTerms}
+                        acceptPayment={acceptPayment}
+                        onTermsChange={setAcceptTerms}
+                        onPaymentChange={setAcceptPayment}
+                    />
+                );
+            default:
+                return null;
+        }
     };
 
     return (
@@ -176,307 +238,56 @@ export default function RegisterEnterpriseView() {
                 </div>
             </header>
 
-            <div className={styles.formContainer}>
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <FormSection
-                        title="Informações Básicas"
-                        description="Dados principais da sua empresa"
-                        icon={<FiFileText />}
-                    >
-                        <FormField
-                            label="Nome da Empresa"
-                            name="name"
-                            placeholder="Ex: Studio Bella Hair"
-                            required
-                        />
+            <div className={styles.contentWrapper}>
+                <RegisterSidebar
+                    sections={sections}
+                    currentSection={currentSection}
+                    onSectionChange={setCurrentSection}
+                />
 
-                        <FormField
-                            label="CNPJ"
-                            name="cnpj"
-                            placeholder="123.456.789-10"
-                            required
-                        />
+                <div className={styles.formContainer}>
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        {renderSection()}
 
-                        <FormField
-                            label="Categoria"
-                            name="category"
-                            variant="select"
-                            options={categories}
-                            placeholder="Selecione uma categoria"
-                            required
-                        />
+                        <div className={styles.formNavigation}>
+                            <button 
+                                type="button" 
+                                className={styles.navBtn}
+                                onClick={goToPreviousSection}
+                                disabled={isFirstSection}
+                            >
+                                <FiChevronLeft /> Anterior
+                            </button>
 
-                        <FormField
-                            label="Descrição"
-                            name="description"
-                            variant="textarea"
-                            placeholder="Descreva sua empresa e os serviços oferecidos..."
-                            maxLength={500}
-                            hint="Máximo de 500 caracteres"
-                        />
-
-                        <div className={styles.field}>
-                            <label className={styles.label}>Logo da Empresa</label>
-                            <ImageUpload
-                                id="logo-upload"
-                                name="logo"
-                                label="Escolher Logo"
-                                variant="logo"
-                            />
+                            {!isLastSection ? (
+                                <button 
+                                    type="button" 
+                                    className={styles.navBtnPrimary}
+                                    onClick={goToNextSection}
+                                >
+                                    Próximo <FiChevronRight />
+                                </button>
+                            ) : (
+                                <button 
+                                    type="submit" 
+                                    className={styles.navBtnPrimary}
+                                >
+                                    Cadastrar Empresa
+                                </button>
+                            )}
                         </div>
 
-                        <div className={styles.field}>
-                            <label className={styles.label}>Banner da Empresa</label>
-                            <ImageUpload
-                                id="banner-upload"
-                                name="banner"
-                                label="Escolher Banner"
-                                variant="banner"
-                            />
+                        <div className={styles.formActions}>
+                            <button 
+                                type="button" 
+                                className={styles.cancelBtn}
+                                onClick={handleCancel}
+                            >
+                                Cancelar Cadastro
+                            </button>
                         </div>
-                    </FormSection>
-
-                    <FormSection
-                        title="Responsável Legal"
-                        description="Dados do proprietário ou responsável legal da empresa"
-                        icon={<FiUser />}
-                    >
-                        <FormField
-                            label="Nome Completo do Responsável"
-                            name="ownerName"
-                            placeholder="Nome completo do proprietário"
-                            icon={<FiUser />}
-                            required
-                        />
-
-                        <FormField
-                            label="CPF do Responsável"
-                            name="ownerCpf"
-                            placeholder="000.000.000-00"
-                            required
-                        />
-                    </FormSection>
-
-                    <FormSection
-                        title="Contato e Localização"
-                        description="Como os clientes podem te encontrar"
-                        icon={<FiMapPin />}
-                    >
-                        <FormField
-                            label="CEP"
-                            name="zipCode"
-                            placeholder="00000-000"
-                            required
-                        />
-
-                        <div className={styles.fieldRow}>
-                            <FormField
-                                label="Rua"
-                                name="street"
-                                placeholder="Nome da rua"
-                                required
-                            />
-
-                            <FormField
-                                label="Número"
-                                name="number"
-                                placeholder="123"
-                                required
-                            />
-                        </div>
-
-                        <FormField
-                            label="Complemento"
-                            name="complement"
-                            placeholder="Apto, Sala, Bloco (opcional)"
-                        />
-
-                        <div className={styles.fieldRow}>
-                            <FormField
-                                label="Cidade"
-                                name="city"
-                                placeholder="Nome da cidade"
-                                required
-                            />
-
-                            <FormField
-                                label="Estado"
-                                name="state"
-                                placeholder="UF"
-                                required
-                            />
-                        </div>
-
-                        <FormField
-                            label="País"
-                            name="country"
-                            placeholder="Brasil"
-                            required
-                        />
-
-                        <FormField
-                            label="Telefone"
-                            name="phone"
-                            type="tel"
-                            placeholder="(00) 00000-0000"
-                            icon={<FiPhone />}
-                            required
-                        />
-
-                        <FormField
-                            label="Email"
-                            name="email"
-                            type="email"
-                            placeholder="contato@empresa.com"
-                            icon={<FiMail />}
-                            required
-                        />
-
-                        <div className={styles.field}>
-                            <label className={styles.label}>
-                                <FiClock style={{ marginRight: '8px' }} />
-                                Horário de Funcionamento
-                            </label>
-                            <WeeklyHours />
-                        </div>
-                    </FormSection>
-
-                    <FormSection
-                        title="Serviços Oferecidos"
-                        description="Adicione os serviços que sua empresa oferece"
-                        icon={<FiFileText />}
-                    >
-                        <ServiceForm
-                            serviceCount={serviceCount}
-                            onAddService={addService}
-                            onRemoveService={removeService}
-                        />
-                    </FormSection>
-
-                    <FormSection
-                        title="Pagamento da Mensalidade - Cartão de Crédito"
-                        description="Cadastre um cartão de crédito para cobrança automática da assinatura mensal"
-                        icon={<FiCreditCard />}
-                    >
-                        <div className={styles.requiredBadge}>
-                            <span>Obrigatório - Apenas Cartão de Crédito</span>
-                        </div>
-
-                        <div className={styles.paymentNotice}>
-                            <FiLock />
-                            <span>Seus dados são criptografados e processados com segurança. A cobrança é automática todo mês.</span>
-                        </div>
-
-                        <FormField
-                            label="Nome no Cartão de Crédito"
-                            name="cardholderName"
-                            placeholder="Nome como está no cartão"
-                            required
-                        />
-
-                        <FormField
-                            label="Número do Cartão"
-                            name="cardNumber"
-                            placeholder="0000 0000 0000 0000"
-                            icon={<FiCreditCard />}
-                            required
-                        />
-
-                        <div className={styles.cardRow}>
-                            <FormField
-                                label="Validade"
-                                name="cardExpiry"
-                                placeholder="MM/AA"
-                                required
-                            />
-
-                            <FormField
-                                label="CVV"
-                                name="cardCvv"
-                                type="password"
-                                placeholder="123"
-                                hint="Código de 3 dígitos no verso"
-                                required
-                            />
-                        </div>
-                    </FormSection>
-
-                    <FormSection
-                        title="Recebimento via PIX"
-                        description="Informe sua chave PIX para receber pagamentos dos clientes"
-                        icon={<FiCreditCard />}
-                    >
-                        <div className={styles.optionalBadge}>
-                            <span>Opcional</span>
-                        </div>
-
-                        <FormField
-                            label="Tipo de Chave PIX"
-                            name="pixKeyType"
-                            variant="select"
-                            options={pixKeyTypes.map(t => t.label)}
-                            placeholder="Selecione o tipo de chave"
-                        />
-
-                        <FormField
-                            label="Chave PIX"
-                            name="pixKey"
-                            placeholder="Digite sua chave PIX"
-                            hint="Esta chave será usada para receber os pagamentos dos agendamentos"
-                        />
-                    </FormSection>
-
-                    <FormSection
-                        title="Termos e Condições"
-                        description="Leia e aceite os termos para continuar"
-                        icon={<FiCheckSquare />}
-                    >
-                        <div className={styles.termsSection}>
-                            <label className={styles.checkboxLabel}>
-                                <input
-                                    type="checkbox"
-                                    name="acceptTerms"
-                                    checked={acceptTerms}
-                                    onChange={(e) => setAcceptTerms(e.target.checked)}
-                                    required
-                                />
-                                <span>
-                                    Li e aceito os{' '}
-                                    <a href="/terms" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
-                                    {' '}e a{' '}
-                                    <a href="/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-                                </span>
-                            </label>
-
-                            <label className={styles.checkboxLabel}>
-                                <input
-                                    type="checkbox"
-                                    name="acceptPayment"
-                                    checked={acceptPayment}
-                                    onChange={(e) => setAcceptPayment(e.target.checked)}
-                                    required
-                                />
-                                <span>
-                                    Autorizo a cobrança mensal automática no cartão de crédito cadastrado.
-                                </span>
-                            </label>
-                        </div>
-                    </FormSection>
-
-                    <div className={styles.formActions}>
-                        <ButtonComponent 
-                            type="button" 
-                            customClass={styles.cancelBtn}
-                            onClick={handleCancel}
-                            text="Cancelar"
-                        />
-                        <ButtonComponent 
-                            type="submit" 
-                            customClass={styles.submitBtn}
-                            text="Cadastrar Empresa"
-                        />
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     );

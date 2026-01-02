@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FiClock, FiX } from 'react-icons/fi';
 import styles from './WeeklyHours.module.css';
 
 interface DaySchedule {
@@ -15,13 +16,13 @@ interface WeeklyHoursProps {
 
 export default function WeeklyHours({ onChange }: WeeklyHoursProps) {
     const [schedule, setSchedule] = useState<DaySchedule[]>([
-        { day: 'monday', dayLabel: 'Segunda-feira', isOpen: true, openTime: '08:00', closeTime: '18:00' },
-        { day: 'tuesday', dayLabel: 'Terça-feira', isOpen: true, openTime: '08:00', closeTime: '18:00' },
-        { day: 'wednesday', dayLabel: 'Quarta-feira', isOpen: true, openTime: '08:00', closeTime: '18:00' },
-        { day: 'thursday', dayLabel: 'Quinta-feira', isOpen: true, openTime: '08:00', closeTime: '18:00' },
-        { day: 'friday', dayLabel: 'Sexta-feira', isOpen: true, openTime: '08:00', closeTime: '18:00' },
-        { day: 'saturday', dayLabel: 'Sábado', isOpen: false, openTime: '08:00', closeTime: '18:00' },
-        { day: 'sunday', dayLabel: 'Domingo', isOpen: false, openTime: '08:00', closeTime: '18:00' },
+        { day: 'monday', dayLabel: 'Segunda', isOpen: true, openTime: '08:00', closeTime: '18:00' },
+        { day: 'tuesday', dayLabel: 'Terça', isOpen: true, openTime: '08:00', closeTime: '18:00' },
+        { day: 'wednesday', dayLabel: 'Quarta', isOpen: true, openTime: '08:00', closeTime: '18:00' },
+        { day: 'thursday', dayLabel: 'Quinta', isOpen: true, openTime: '08:00', closeTime: '18:00' },
+        { day: 'friday', dayLabel: 'Sexta', isOpen: true, openTime: '08:00', closeTime: '18:00' },
+        { day: 'saturday', dayLabel: 'Sábado', isOpen: false, openTime: '08:00', closeTime: '14:00' },
+        { day: 'sunday', dayLabel: 'Domingo', isOpen: false, openTime: '08:00', closeTime: '14:00' },
     ]);
 
     const handleToggleDay = (index: number) => {
@@ -41,42 +42,51 @@ export default function WeeklyHours({ onChange }: WeeklyHoursProps) {
     return (
         <div className={styles.weeklyHours}>
             {schedule.map((day, index) => (
-                <div key={day.day} className={styles.dayRow}>
-                    <div className={styles.dayInfo}>
-                        <label className={styles.checkbox}>
+                <div 
+                    key={day.day} 
+                    className={`${styles.dayRow} ${day.isOpen ? styles.open : styles.closed}`}
+                >
+                    <div className={styles.dayHeader}>
+                        <div className={styles.dayToggle}>
                             <input
                                 type="checkbox"
+                                id={`day-${day.day}`}
                                 checked={day.isOpen}
                                 onChange={() => handleToggleDay(index)}
+                                className={styles.toggleInput}
                             />
-                            <span className={styles.dayLabel}>{day.dayLabel}</span>
-                        </label>
+                            <label htmlFor={`day-${day.day}`} className={styles.toggleLabel}>
+                                <span className={styles.toggleSwitch}></span>
+                            </label>
+                        </div>
+                        <span className={styles.dayName}>{day.dayLabel}</span>
                     </div>
 
                     {day.isOpen ? (
-                        <div className={styles.timeInputs}>
-                            <div className={styles.timeField}>
-                                <label>Abertura</label>
-                                <input
-                                    type="time"
-                                    value={day.openTime}
-                                    onChange={(e) => handleTimeChange(index, 'openTime', e.target.value)}
-                                    className={styles.timeInput}
-                                    name={`workingHours[${day.day}].openTime`}
-                                />
+                        <div className={styles.timeControls}>
+                            <div className={styles.timeGroup}>
+                                <div className={styles.timeInputWrapper}>
+                                    <FiClock className={styles.clockIcon} />
+                                    <input
+                                        type="time"
+                                        value={day.openTime}
+                                        onChange={(e) => handleTimeChange(index, 'openTime', e.target.value)}
+                                        className={styles.timeInput}
+                                        name={`workingHours[${day.day}].openTime`}
+                                    />
+                                </div>
+                                <span className={styles.timeSeparator}>—</span>
+                                <div className={styles.timeInputWrapper}>
+                                    <FiClock className={styles.clockIcon} />
+                                    <input
+                                        type="time"
+                                        value={day.closeTime}
+                                        onChange={(e) => handleTimeChange(index, 'closeTime', e.target.value)}
+                                        className={styles.timeInput}
+                                        name={`workingHours[${day.day}].closeTime`}
+                                    />
+                                </div>
                             </div>
-                            <span className={styles.separator}>às</span>
-                            <div className={styles.timeField}>
-                                <label>Fechamento</label>
-                                <input
-                                    type="time"
-                                    value={day.closeTime}
-                                    onChange={(e) => handleTimeChange(index, 'closeTime', e.target.value)}
-                                    className={styles.timeInput}
-                                    name={`workingHours[${day.day}].closeTime`}
-                                />
-                            </div>
-
                             <input
                                 type="hidden"
                                 name={`workingHours[${day.day}].isOpen`}
@@ -84,7 +94,8 @@ export default function WeeklyHours({ onChange }: WeeklyHoursProps) {
                             />
                         </div>
                     ) : (
-                        <div className={styles.closedLabel}>
+                        <div className={styles.closedBadge}>
+                            <FiX className={styles.closedIcon} />
                             <span>Fechado</span>
                             <input
                                 type="hidden"

@@ -1,0 +1,25 @@
+.fieldRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .fieldRow {
+        grid-template-columns: 1fr;
+    }
+}
